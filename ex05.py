@@ -56,7 +56,7 @@ class Or:
         return isinstance(other, Or) and {self.left, self.right} == {other.left, other.right}
 
 
-def rpn_to_tree(formula: str) -> Node:
+def to_tree(formula: str) -> Node:
     stack: list[Node] = []
 
     for ch in formula:
@@ -87,24 +87,24 @@ def rpn_to_tree(formula: str) -> Node:
 
     return stack.pop()
 
-def tree_to_nnf(node: Node) -> Node:
+def to_nnf(node: Node) -> Node:
     match node:
         case Var(_): return node
         case Not(Var(_)): return node
-        case Not(Not(op)): return tree_to_nnf(op)
-        case Not(And(left, right)): return Or(tree_to_nnf(Not(left)), tree_to_nnf(Not(right)))
-        case Not(Or(left, right)): return And(tree_to_nnf(Not(left)), tree_to_nnf(Not(right)))
-        case And(left, right): return And(tree_to_nnf(left), tree_to_nnf(right))
-        case Or(left, right): return Or(tree_to_nnf(left), tree_to_nnf(right))
+        case Not(Not(op)): return to_nnf(op)
+        case Not(And(left, right)): return Or(to_nnf(Not(left)), to_nnf(Not(right)))
+        case Not(Or(left, right)): return And(to_nnf(Not(left)), to_nnf(Not(right)))
+        case And(left, right): return And(to_nnf(left), to_nnf(right))
+        case Or(left, right): return Or(to_nnf(left), to_nnf(right))
         case _: raise ValueError(f"Invalid node: {node}")
 
 
-def tree_to_rpn(node: Node) -> str:
+def to_rpn(node: Node) -> str:
     match node:
         case Var(ch): return ch
-        case Not(op): return tree_to_rpn(op) + "!"
-        case And(left, right): return tree_to_rpn(left) + tree_to_rpn(right) + "&"
-        case Or(left, right): return tree_to_rpn(left) + tree_to_rpn(right) + "|"
+        case Not(op): return to_rpn(op) + "!"
+        case And(left, right): return to_rpn(left) + to_rpn(right) + "&"
+        case Or(left, right): return to_rpn(left) + to_rpn(right) + "|"
         case _: raise ValueError(f"Invalid node: {node}")
 
 
@@ -112,10 +112,7 @@ def negation_normal_form(formula: str) -> str:
     """ Convert formula to tree, already parsing > and ^
         Recursively convert tree to negation normal form (nnf).
         Convert back to string in reverse polish notation. """
-
-    tree = rpn_to_tree(formula)
-    nnf = tree_to_nnf(tree)
-    return tree_to_rpn(nnf)
+    return to_rpn(to_nnf(to_tree(formula)))
 
 
 def main():
