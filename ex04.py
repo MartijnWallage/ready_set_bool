@@ -28,12 +28,10 @@ def eval_formula(formula: str, assignment: dict[str, bool]) -> bool:
 
 
 def print_truth_table(formula: str):
-    vars = [ch for ch in formula if ch.isupper()]
-    vars.sort()
+    vars = sorted({ch for ch in formula if ch.isupper()})
     assignments: list[dict[str, bool]] = []
-    i = 0
-    n = pow(2, len(vars))
-    while i < n:
+    n = len(vars)
+    for i in range(1 << n):
         assignment: dict[str, bool] = {}
         for j, var in enumerate(vars):
             # i is the number we want to map onto each variable
@@ -42,15 +40,11 @@ def print_truth_table(formula: str):
             # B the value of the 1st digit of i
             assignment[var] = (i >> (len(vars) - 1 - j)) & 1
         assignments.append(assignment)
-        i += 1
 
-    print("|", end="")
-    for var in vars:
-        print(f" {var} |", end="")
-    print(" = |")
-    for _ in range(len(vars)+1):
-        print("|---", end="")
-    print("|")
+    header = "| " + " | ".join(vars) + " | = |"
+    sep = "|-" + "-|-".join("-" for _ in vars) + "-|---|"
+    print(header)
+    print(sep)
     for assignment in assignments:
         for var in vars:
             print(f"| {int(assignment[var])} ", end="")
