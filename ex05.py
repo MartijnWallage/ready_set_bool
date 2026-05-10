@@ -96,7 +96,7 @@ def to_nnf(node: Node) -> Node:
         case Not(Or(left, right)): return And(to_nnf(Not(left)), to_nnf(Not(right)))
         case And(left, right): return And(to_nnf(left), to_nnf(right))
         case Or(left, right): return Or(to_nnf(left), to_nnf(right))
-        case _: raise ValueError(f"Invalid node: {node}")
+        case _: raise ValueError(f"Invalid node: {node!r}")
 
 
 def to_rpn(node: Node) -> str:
@@ -105,7 +105,7 @@ def to_rpn(node: Node) -> str:
         case Not(op): return to_rpn(op) + "!"
         case And(left, right): return to_rpn(left) + to_rpn(right) + "&"
         case Or(left, right): return to_rpn(left) + to_rpn(right) + "|"
-        case _: raise ValueError(f"Invalid node: {node}")
+        case _: raise ValueError(f"Invalid node: {node!r}")
 
 
 def negation_normal_form(formula: str) -> str:
