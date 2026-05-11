@@ -1,4 +1,4 @@
-def eval_sets(formula: str, sets: list[list[int]]) -> list[int]:
+def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
     """ Each variable in formula corresponds to a list in sets.
         We use a stack with multiple sets, reduced to 1 set 
         in the end.
@@ -56,7 +56,7 @@ def main():
 
     print("---")
     for formula in formulas:
-        print(f"{formula}: {eval_sets(formula, sets)}")
+        print(f"{formula}: {eval_set(formula, sets)}")
 
 
 if __name__ == "__main__":
