@@ -27,7 +27,7 @@ def eval_formula(formula: str, assignment: dict[str, bool]) -> bool:
     return stack.pop()
 
 
-def print_truth_table(formula: str):
+def make_assignments(formula: str) -> list[dict[str, bool]]:
     vars = sorted({ch for ch in formula if ch.isupper()})
     assignments: list[dict[str, bool]] = []
     n = len(vars)
@@ -40,11 +40,17 @@ def print_truth_table(formula: str):
             # B the value of the 1st digit of i
             assignment[var] = (i >> (len(vars) - 1 - j)) & 1
         assignments.append(assignment)
+    return assignments
 
+
+def print_truth_table(formula: str):
+    vars = sorted({ch for ch in formula if ch.isupper()})
     header = "| " + " | ".join(vars) + " | = |"
     sep = "|-" + "-|-".join("-" for _ in vars) + "-|---|"
     print(header)
     print(sep)
+
+    assignments = make_assignments(formula)
     for assignment in assignments:
         for var in vars:
             print(f"| {int(assignment[var])} ", end="")
