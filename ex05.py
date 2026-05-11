@@ -121,7 +121,8 @@ def main():
         "AB|!",
         "AB>",
         "AB=",
-        "AB|C&!"
+        "AB|C&!",
+        "AB&!AB|!|!",
     ]
 
     for case in cases:
