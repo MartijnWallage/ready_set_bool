@@ -1,4 +1,4 @@
-from ex05 import Node, Var, Not, And, Or, to_tree, to_nnf, to_rpn
+from ex05 import Node, Var, Not, And, Or, to_tree, to_nnf
 
 def distribute(l: Node, r: Node) -> Node:
     match (l, r):
@@ -22,22 +22,29 @@ def to_cnf(node: Node) -> Node:
             return node
 
 
+def to_rpn(node: Node) -> str:
+    """ Walk through the tree to create a string.
+        Any ampersands on a left branch have to be moved to the end 
+        of the string to preserve cnf.
+    """
+    match node:
+        case Var(ch): return ch
+        case Not(op): return to_rpn(op) + "!"
+        case And(left, right): 
+            new_left = to_rpn(left)
+            stripped = new_left.rstrip("&")
+            return stripped + to_rpn(right) + new_left[len(stripped):] + "&"
+        case Or(left, right): return to_rpn(left) + to_rpn(right) + "|"
+        case _: raise ValueError(f"Invalid node: {node!r}")
+
+
 def conjunctive_normal_form(formula: str) -> str:
     """ Convert reverse polish notation (rpn) string to tree
         Convert tree to negation normal form (nnf).
         Convert nnf to cnf.
         Convert cnf tree back to rpn string to return.
     """
-    print(f"formula: {formula}")
-    tree = to_tree(formula)
-    print(f"tree:    {tree}")
-    nnf = to_nnf(tree)
-    print(f"nnf:     {nnf}")
-    cnf = to_cnf(nnf)
-    print(f"cnf:     {cnf}")
-    rpn = to_rpn(cnf)
-    print(f"rpn:     {rpn}")
-    return rpn
+    return to_rpn(to_cnf(to_nnf(to_tree(formula))))
 
 
 def main():
@@ -50,11 +57,13 @@ def main():
         "AB&!C!|",
         "AB|!C!&",
         "AB&CD&|",
+        "ABC&&DE&|",
+        "ABC&&DE&|!"
     ]
 
     for case in cases:
         result = conjunctive_normal_form(case)
-        print(f"\n{case}: {result}\n")
+        print(f"{case}: {result}")
 
 
 if __name__ == "__main__":
