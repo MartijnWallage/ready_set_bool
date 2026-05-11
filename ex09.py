@@ -4,35 +4,33 @@ def eval_sets(formula: str, sets: list[list[int]]) -> list[int]:
         in the end.
     """
     universe = {num for s in sets for num in s}
-    stack: list[list[int]] = []
+    stack: list[set[int]] = []
     for ch in formula:
         if ch.isupper():
             i = ord(ch) - ord('A')
-            stack.append(sets[i])
+            stack.append(set(sets[i]))
         elif ch == '!':
             op = stack.pop()
-            complement = [num for num in universe if num not in op]
-            stack.append(complement)
+            stack.append(universe - op)
         elif ch == '&':
             right, left = stack.pop(), stack.pop()
-            stack.append([num for num in universe if num in left and num in right])
+            stack.append(left & right)
         elif ch == '|':
             right, left = stack.pop(), stack.pop()
-            stack.append([num for num in universe if num in left or num in right])
+            stack.append(left | right)
         elif ch == '^':
             right, left = stack.pop(), stack.pop()
-            stack.append([num for num in universe if (num in left and num not in right) or (num in right and num not in left)])
+            stack.append((left | right) - (left & right)) 
         elif ch == '>':
             right, left = stack.pop(), stack.pop()
-            stack.append([num for num in universe if num not in left or num in right])
+            stack.append((universe - left) | right)
         elif ch == '=':
             right, left = stack.pop(), stack.pop()
-            stack.append([num for num in universe if (num not in left and num not in right) or (num in left and num in right)])
-
+            stack.append((left & right) | (universe - (left | right)))
     if len(stack) != 1:
         raise ValueError(f"Stack invalid: {stack!r}")
 
-    return stack.pop()
+    return sorted(stack.pop())
 
 
 def main():
@@ -49,10 +47,11 @@ def main():
     sets = [
         [1,2,3,4,5],
         [4,5,6,7,8],
+        [9],
     ]
 
     for i, s in enumerate(sets):
-        var: char = chr(i + ord("A"))
+        var = chr(i + ord("A"))
         print(f"{var} = {s}")
 
     print("---")
