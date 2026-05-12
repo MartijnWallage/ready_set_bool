@@ -89,23 +89,36 @@ def to_tree(formula: str) -> Node:
 
 def to_nnf(node: Node) -> Node:
     match node:
-        case Var(_): return node
-        case Not(Var(_)): return node
-        case Not(Not(op)): return to_nnf(op)
-        case Not(And(left, right)): return Or(to_nnf(Not(left)), to_nnf(Not(right)))
-        case Not(Or(left, right)): return And(to_nnf(Not(left)), to_nnf(Not(right)))
-        case And(left, right): return And(to_nnf(left), to_nnf(right))
-        case Or(left, right): return Or(to_nnf(left), to_nnf(right))
-        case _: raise ValueError(f"Invalid node: {node!r}")
+        case Var(_):
+            return node
+        case Not(Var(_)): 
+            return node
+        case Not(Not(op)): 
+            return to_nnf(op)
+        case Not(And(left, right)): 
+            return Or(to_nnf(Not(left)), to_nnf(Not(right)))
+        case Not(Or(left, right)): 
+            return And(to_nnf(Not(left)), to_nnf(Not(right)))
+        case And(left, right): 
+            return And(to_nnf(left), to_nnf(right))
+        case Or(left, right): 
+            return Or(to_nnf(left), to_nnf(right))
+        case _:
+            raise ValueError(f"Invalid node: {node!r}")
 
 
 def to_rpn(node: Node) -> str:
     match node:
-        case Var(ch): return ch
-        case Not(op): return to_rpn(op) + "!"
-        case And(left, right): return to_rpn(left) + to_rpn(right) + "&"
-        case Or(left, right): return to_rpn(left) + to_rpn(right) + "|"
-        case _: raise ValueError(f"Invalid node: {node!r}")
+        case Var(ch):
+            return ch
+        case Not(op):
+            return to_rpn(op) + "!"
+        case And(left, right):
+            return to_rpn(left) + to_rpn(right) + "&"
+        case Or(left, right):
+            return to_rpn(left) + to_rpn(right) + "|"
+        case _:
+            raise ValueError(f"Invalid node: {node!r}")
 
 
 def negation_normal_form(formula: str) -> str:
