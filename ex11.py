@@ -13,6 +13,11 @@ def reverse_map(f: float) -> tuple[int, int]:
     
     return (x, y)
 
+# For testing:
+from random import random
+GREEN = "\033[32m"
+RED   = "\033[31m"
+RESET = "\033[0m"
 
 def main():
     cases = [
@@ -31,14 +36,20 @@ def main():
     ]
 
     for case in cases:
+        print(f"Testing  {case}...")
         morton = morton_map(*case)
-        print(f"Morton of\t{case} is\t{morton:.32f}")
-        result = reverse_map(morton)
-        print(f"Reverse is\t{result}")
-        new_morton = morton_map(*result)
-        print(f"Morton of that is\t{new_morton:.32f}")
-        new_result = reverse_map(new_morton)
-        print(f"Reverse of that is\t{new_result}\n")
+        reverse = reverse_map(morton)
+        print(f"Morton:  {morton:.32f}")
+        print(f"Reverse: {reverse}")
+        morton2 = morton_map(*reverse)
+        reverse2 = reverse_map(morton2)
+        print(f"Morton:  {morton:.32f}")
+        print(f"Reverse: {reverse}")
+        print("Bijective: ", end=" ")
+        if reverse == reverse2 == case:
+            print(f"{GREEN}✓{RESET}\n")
+        else:
+            print(f"{RED}✗{RESET}\n")
 
 
 if __name__ == "__main__":
