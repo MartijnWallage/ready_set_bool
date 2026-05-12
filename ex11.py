@@ -42,11 +42,14 @@ def main():
         print(f"Morton:  {morton:.32f}")
         print(f"Reverse: {reverse}")
         morton2 = morton_map(*reverse)
-        reverse2 = reverse_map(morton2)
         print(f"Morton:  {morton:.32f}")
-        print(f"Reverse: {reverse}")
-        print("Bijective: ", end=" ")
-        if reverse == reverse2 == case:
+        print("reverse(morton(x,y)) == (x,y):", end=" ")
+        if reverse == case:
+            print(f"{GREEN}✓{RESET}")
+        else:
+            print(f"{RED}✗{RESET}")
+        print("morton(reverse(x)) == x:", end=" ")
+        if morton2 == morton:
             print(f"{GREEN}✓{RESET}\n")
         else:
             print(f"{RED}✗{RESET}\n")
