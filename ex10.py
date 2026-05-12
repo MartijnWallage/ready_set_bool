@@ -1,4 +1,4 @@
-def map(x: int, y: int) -> float:
+def morton_map(x: int, y: int) -> float:
     """A function that maps each pair of coordinates onto 
     a float in the interval [0,1]. 
     x and y are in the range [0,2^16)
@@ -34,7 +34,7 @@ def main():
     ]
 
     for case in cases:
-        result = map(*case)
+        result = morton_map(*case)
         print(f"{case} - ({case[0]:016b}, {case[1]:016b}):\n{result:.32f}\n")
 
 
