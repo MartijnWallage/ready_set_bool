@@ -14,7 +14,6 @@ def reverse_map(f: float) -> tuple[int, int]:
     return (x, y)
 
 # For testing:
-from random import random
 GREEN = "\033[32m"
 RED   = "\033[31m"
 RESET = "\033[0m"
