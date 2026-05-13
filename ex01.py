@@ -11,6 +11,10 @@ def multiplier(a: int, b: int) -> int:
     return result
 
 
+# For testing
+import operator
+from utils import check
+
 def main():
     cases = [
         (0,0),
@@ -23,7 +27,9 @@ def main():
         (9,132),
     ]
     for case in cases:
-        print(f"{case[0]} * {case[1]} =", multiplier(*case))
+        result = multiplier(*case)
+        expected = operator.mul(*case)
+        check(result == expected, f"Expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

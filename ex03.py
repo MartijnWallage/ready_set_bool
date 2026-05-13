@@ -28,15 +28,38 @@ def eval_formula(formula: str) -> bool:
     return stack.pop()
 
 
+# For testing
+from utils import check
+
 def main():
     cases = [
-        "10&",
-        "10|",
-        "10|1&",
-        "101|&",
+        ("10&", False),
+        ("10|", True),
+        ("10|1&", True),
+        ("101|&", True),
+        ("1", True),
+        ("0", False),
+        ("00|", False),
+        ("001||", True),
+        ("001|&", False),
+        ("0!", True),
+        ("1!", False),
+        ("11^", False),
+        ("10^", True),
+        ("01^", True),
+        ("00^", False),
+        ("01>", True),
+        ("10>", False),
+        ("0!0>", False),
+        ("11=", True),
+        ("1!0=", True),
+        ("0!0=", False),
+        ("10|1>", True),
     ]
     for case in cases:
-        print(f"{case}: {eval_formula(case)}")
+        result = eval_formula(case[0])
+        expected = case[1]
+        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

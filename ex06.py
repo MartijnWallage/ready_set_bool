@@ -47,23 +47,28 @@ def conjunctive_normal_form(formula: str) -> str:
     return to_rpn(to_cnf(to_nnf(to_tree(formula))))
 
 
+# For testing
+from utils import check
+
 def main():
     cases = [
-        "AB&!",
-        "AB|!",
-        "AB|C&",
-        "AB|C|D|",
-        "AB&C&D&",
-        "AB&!C!|",
-        "AB|!C!&",
-        "AB&CD&|",
-        "ABC&&DE&|",
-        "ABC&&DE&|!"
+        ("AB&!", "A!B!|"),
+        ("AB|!", "A!B!&"),
+        ("AB|C&", "AB|C&"),
+        ("AB&C|", "AC|BC|&"),
+        ("AB|C|D|", "AB|C|D|"),
+        ("AB&C&D&", "ABCD&&&"),
+        ("AB&!C!|", "A!B!|C!|"),
+        ("AB|!C!&", "A!B!C!&&"),
+        ("AB&CD&|", "AC|AD|BC|BD|&&&"),
+        ("ABC&&DE&|", "AD|AE|BD|BE|CD|CE|&&&&&"),
+        ("ABC&&DE&|!", "A!B!C!||D!E!|&"),
     ]
 
     for case in cases:
-        result = conjunctive_normal_form(case)
-        print(f"{case}: {result}")
+        result = conjunctive_normal_form(case[0])
+        expected = case[1]
+        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

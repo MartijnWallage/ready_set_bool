@@ -4,6 +4,10 @@ def adder(a: int, b: int) -> int:
     return a
 
 
+# For testing:
+import operator
+from utils import check
+
 def main():
     pairs = [
         (0,0),
@@ -16,7 +20,9 @@ def main():
         (12,123),
     ]
     for pair in pairs:
-        print(f"{pair[0]} + {pair[1]} =", adder(*pair))
+        result = adder(*pair)
+        expected = operator.add(*pair)
+        check(result == expected, f"Expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

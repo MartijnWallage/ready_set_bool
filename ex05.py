@@ -103,8 +103,7 @@ def to_nnf(node: Node) -> Node:
             return And(to_nnf(left), to_nnf(right))
         case Or(left, right): 
             return Or(to_nnf(left), to_nnf(right))
-        case _:
-            raise ValueError(f"Invalid node: {node!r}")
+        case _: raise ValueError(f"Invalid node: {node!r}")
 
 
 def to_rpn(node: Node) -> str:
@@ -117,8 +116,7 @@ def to_rpn(node: Node) -> str:
             return to_rpn(left) + to_rpn(right) + "&"
         case Or(left, right):
             return to_rpn(left) + to_rpn(right) + "|"
-        case _:
-            raise ValueError(f"Invalid node: {node!r}")
+        case _: raise ValueError(f"Invalid node: {node!r}")
 
 
 def negation_normal_form(formula: str) -> str:
@@ -128,19 +126,23 @@ def negation_normal_form(formula: str) -> str:
     return to_rpn(to_nnf(to_tree(formula)))
 
 
+# For testing
+from utils import check
+
 def main():
     cases = [
-        "AB&!",
-        "AB|!",
-        "AB>",
-        "AB=",
-        "AB|C&!",
-        "AB&!AB|!|!",
+        ("AB&!", "A!B!|"),
+        ("AB|!", "A!B!&"),
+        ("AB>", "A!B|"),
+        ("AB=", "AB&A!B!&|"),
+        ("AB|C&!", "A!B!&C!|"),
+        ("AB&!AB|!|!", "AB&AB|&"),
     ]
 
     for case in cases:
-        result = negation_normal_form(case)
-        print(f"{case}: {result}")
+        result = negation_normal_form(case[0])
+        expected = case[1]
+        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":
