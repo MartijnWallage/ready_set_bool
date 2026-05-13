@@ -16,16 +16,23 @@ def powerset(nums: list[int]) -> list[list[int]]:
     return powset
 
 
+from utils import check
+
+
+def recursive_powset(n: int) -> list[list[int]]:
+    if n == 0:
+        return [[]]
+    previous = recursive_powset(n-1)
+    return previous + [subset + [n-1] for subset in previous]
+
+def normalize(powset: list[list[int]]) -> list[list[int]]:
+    return sorted([sorted(subset) for subset in powset])
+
 def main():
-    cases = [
-        [],
-        [1,2],
-        [1,2,3],
-        [1,2,3,4],
-        [1,2,3,4,5],
-    ]
-    for case in cases:
-        print(f"Powset of {case} is: {powerset(case)}")
+    for i in range(8): 
+        result = normalize(powerset(list(range(i))))
+        expected = normalize(recursive_powset(i))
+        check(result == expected, f"For {i}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

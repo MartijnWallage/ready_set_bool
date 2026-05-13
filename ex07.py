@@ -9,18 +9,23 @@ def sat(formula: str) -> bool:
     return any(assignment for assignment in assignments if eval_formula(formula, assignment))
 
 
+from utils import check
+
 def main():
     cases = [
-        "AB&",
-        "AB|",
-        "AB!&",
-        "AB^",
-        "A!A&",
-        "AB|A!B!&&",
+        ("A", True),
+        ("AB&", True),
+        ("AB|", True),
+        ("AB!&", True),
+        ("AB^", True),
+        ("A!A&", False),
+        ("AB|A!B!&&", False),
     ]
 
     for case in cases:
-        print(f"{case}: {sat(case)}")
+        result = sat(case[0])
+        expected = case[1]
+        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":
