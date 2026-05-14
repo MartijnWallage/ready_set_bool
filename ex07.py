@@ -108,6 +108,7 @@ def split_clauses(formula: str) -> list[list[Var]]:
 
     return clauses
 
+
 def sat(formula: str) -> bool:
     """ The exercise only asks for O(2^n), so we could simply try each assignment.
     But we reserve that approach for testing. Here, just for fun, we implement the
@@ -117,10 +118,9 @@ def sat(formula: str) -> bool:
     clauses = split_clauses(cnf)
     return dpll(clauses=clauses, assignment={})
 
+
 def sat_brute_force(formula: str) -> bool:
-    """ Since we only need O(2^n), we simply try out all assignments
-        evaluate the formula with each assignment
-        return true iff any eval is true:
+    """ Since we only need O(2^n), we simply try out all assignments.
     """
     assignments = make_assignments(formula)
     return any(assignment for assignment in assignments if eval_formula(formula, assignment))
@@ -143,6 +143,8 @@ def main():
         "AB!^AD^&",
         "AB>A!B!>&",
         "AB>A!B>&BA!>&",
+        "AB!>A!B>BA>&&",
+        "AB>BC>CA!>A!BC!&>&&&",
     ]
 
     for case in cases:
