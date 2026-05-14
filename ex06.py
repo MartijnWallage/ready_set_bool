@@ -44,7 +44,11 @@ def conjunctive_normal_form(formula: str) -> str:
         Convert nnf to cnf.
         Convert cnf tree back to rpn string to return.
     """
-    return to_rpn(to_cnf(to_nnf(to_tree(formula))))
+    tree = to_tree(formula)
+    nnf = to_nnf(tree)
+    cnf = to_cnf(nnf)
+    rpn = to_rpn(cnf)
+    return rpn
 
 
 # For testing
