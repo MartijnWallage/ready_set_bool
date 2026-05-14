@@ -16,8 +16,8 @@ def powerset(nums: list[int]) -> list[list[int]]:
     return powset
 
 
+# For testing
 from utils import check
-
 
 def recursive_powset(n: int) -> list[list[int]]:
     if n == 0:
@@ -25,8 +25,10 @@ def recursive_powset(n: int) -> list[list[int]]:
     previous = recursive_powset(n-1)
     return previous + [subset + [n-1] for subset in previous]
 
+
 def normalize(powset: list[list[int]]) -> list[list[int]]:
     return sorted([sorted(subset) for subset in powset])
+
 
 def main():
     for i in range(8): 
