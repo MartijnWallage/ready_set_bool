@@ -25,17 +25,21 @@ def to_cnf(node: Node) -> Node:
 def to_rpn(node: Node) -> str:
     """ Walk through the tree to create a string.
         Any ampersands on a left branch have to be moved to the end 
-        of the string to preserve cnf.
+        of the string to preserve cnf according to the subject.
     """
     match node:
-        case Var(ch): return ch
-        case Not(op): return to_rpn(op) + "!"
+        case Var(ch):
+            return ch
+        case Not(op):
+            return to_rpn(op) + "!"
         case And(left, right): 
             new_left = to_rpn(left)
             stripped = new_left.rstrip("&")
             return stripped + to_rpn(right) + new_left[len(stripped):] + "&"
-        case Or(left, right): return to_rpn(left) + to_rpn(right) + "|"
-        case _: raise ValueError(f"Invalid node: {node!r}")
+        case Or(left, right):
+            return to_rpn(left) + to_rpn(right) + "|"
+        case _:
+            raise ValueError(f"Invalid node: {node!r}")
 
 
 def conjunctive_normal_form(formula: str) -> str:

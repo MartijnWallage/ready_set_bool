@@ -70,7 +70,7 @@ def print_truth_table(formula: str):
 
 def main():
     """
-    Test for print truth table.
+    Test print truth table.
     """
     cases = [
         "AB^",

@@ -16,7 +16,6 @@ class Var:
 
 
 def unit_propagate(clauses: list[list[Var]], assignment: dict[str, bool]) -> bool:
-    assignment = assignment
     for clause in clauses:
         if len(clause) == 1:
             var = clause[0]
@@ -40,7 +39,7 @@ def pure_literal_assign(clauses: list[list[Var]], assignment: dict[str, bool]):
     assignment |= trial_assign
 
 
-def simplify(clauses: list[list[Var]], assignment: dict[str, bool]) -> None:
+def simplify(clauses: list[list[Var]], assignment: dict[str, bool]):
     for clause in clauses[:]:
         for var in clause[:]:
             if var.name not in assignment:
@@ -65,6 +64,8 @@ def dpll(clauses: list[list[Var]], assignment: dict[str, bool]) -> bool:
     Algorithm DPLL
         Input: A set of prop Φ.
         Output: A truth value indicating whether Φ is satisfiable.
+    Time complexity: worst case (no simplification possible) O(2^n), but usually better
+    Space complexity: O(n)
     """
     # unit-propagate:
     if not unit_propagate(clauses, assignment):
