@@ -1,4 +1,8 @@
 def eval_formula(formula: str, assignment: dict[str, bool]) -> bool:
+    """
+    Evaluate formula in boolean logic, reversed polish notation,
+    under a truth value assignment to variables.
+    """
     stack: list[bool] = []
     for ch in formula:
         if ch.isupper(): stack.append(assignment[ch])
@@ -28,6 +32,10 @@ def eval_formula(formula: str, assignment: dict[str, bool]) -> bool:
 
 
 def make_assignments(formula: str) -> list[dict[str, bool]]:
+    """
+    Create table of assignments using sequence of binary numbers.
+    Separated from print_truth_table because useful for later exercise.
+    """
     vars = sorted({ch for ch in formula if ch.isupper()})
     assignments: list[dict[str, bool]] = []
     n = len(vars)
@@ -44,6 +52,9 @@ def make_assignments(formula: str) -> list[dict[str, bool]]:
 
 
 def print_truth_table(formula: str):
+    """
+    Print truth table for formula in reversed polish notation.
+    """
     vars = sorted({ch for ch in formula if ch.isupper()})
     header = "| " + " | ".join(vars) + " | = |"
     sep = "|-" + "-|-".join("-" for _ in vars) + "-|---|"
@@ -58,6 +69,9 @@ def print_truth_table(formula: str):
 
 
 def main():
+    """
+    Test for print truth table.
+    """
     cases = [
         "AB^",
         "AB&",
