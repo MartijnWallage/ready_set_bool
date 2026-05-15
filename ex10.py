@@ -14,6 +14,8 @@ def morton_map(x: int, y: int) -> float:
         ydigit = (y >> i) & 1
         result |= xdigit << (i*2 + 1)
         result |= ydigit << (i*2)
+
+    # print(f"{result:016b}")  # Debugging
     return float(result) / ((1 << 32) - 1)
 
 
