@@ -1,11 +1,11 @@
 from ex10 import morton_map
 
-def reverse_map(f: float) -> tuple[int, int]:
+def reverse_map(n: float) -> tuple[int, int]:
     """Decode morton_map by de-interleaving."""
-    if not 0 <= f <= 1:
-        raise ValueError(f"Input not in [0,1]: {f}")
+    if not 0 <= n <= 1:
+        raise ValueError(f"Input not in [0,1]: {n}")
 
-    bit_rep: int = int(f * ((1 << 32) - 1))
+    bit_rep: int = int(n * ((1 << 32) - 1))
     x = y = 0
     for i in range(16):
         x |= ((bit_rep >> (2*i + 1)) & 1) << i
@@ -13,10 +13,9 @@ def reverse_map(f: float) -> tuple[int, int]:
     
     return (x, y)
 
+
 # For testing:
-GREEN = "\033[32m"
-RED   = "\033[31m"
-RESET = "\033[0m"
+from utils import check
 
 def main():
     cases = [
@@ -35,23 +34,14 @@ def main():
     ]
 
     for case in cases:
-        print(f"Testing  {case}...")
         morton = morton_map(*case)
         reverse = reverse_map(morton)
-        print(f"Morton:  {morton:.32f}")
-        print(f"Reverse: {reverse}")
         morton2 = morton_map(*reverse)
-        print(f"Morton:  {morton:.32f}")
-        print("reverse(morton(x,y)) == (x,y):", end=" ")
-        if reverse == case:
-            print(f"{GREEN}✓{RESET}")
-        else:
-            print(f"{RED}✗{RESET}")
-        print("morton(reverse(x)) == x:", end=" ")
-        if morton2 == morton:
-            print(f"{GREEN}✓{RESET}\n")
-        else:
-            print(f"{RED}✗{RESET}\n")
+        print(f"Is reverse_map(morton_map{case}) == {case}?")
+        check(reverse == case, f"Expected {case}, got {reverse}")
+        print(f"Is morton_map(reverse_map({morton})) == {morton}?")
+        check(morton2 == morton, f"Expected {morton}, got {morton2}")
+        print()
 
 
 if __name__ == "__main__":
