@@ -1,4 +1,9 @@
 def eval_formula(formula: str) -> bool:
+    """
+    Evaluate formula in boolean logic, reversed polish notation.
+    0 for True and 1 for False. No variables.
+    Time complexity: n (simple loop through the chars of formula)
+    """
     stack: list[bool] = []
     for ch in formula:
         if ch == '0': stack.append(False)
@@ -21,7 +26,8 @@ def eval_formula(formula: str) -> bool:
         elif ch == '=': 
             right, left = stack.pop(), stack.pop()
             stack.append(left == right)
-        else: raise ValueError(f"Unknown symbol: {ch!r}")
+        else:
+            raise ValueError(f"Unknown symbol: {ch!r}")
 
     if len(stack) != 1:
         raise ValueError(f"Invalid formula: {stack}")
