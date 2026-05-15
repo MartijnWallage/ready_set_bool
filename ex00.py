@@ -1,4 +1,9 @@
 def adder(a: int, b: int) -> int:
+    """
+    Bitwise addition.
+    Time complexity : O(logn) (we walk the digits of the number from right to left)
+    Space complexity : O(n) (in-place)
+    """
     while b > 0:
         a, b = a^b, (a&b) << 1
     return a
