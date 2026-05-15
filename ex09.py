@@ -33,16 +33,9 @@ def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
     return sorted(stack.pop())
 
 
+from utils import check
+
 def main():
-    formulas = [
-        "AB&",
-        "AB|",
-        "AB^",
-        "A!",
-        "B!",
-        "AB>",
-        "AB=",
-    ]
 
     sets = [
         [1,2,3,4,5],
@@ -50,13 +43,27 @@ def main():
         [9],
     ]
 
+    cases = [
+        ("AB&", [4, 5]),
+        ("AB|", [1,2,3,4,5,6,7,8]),
+        ("AB^", [1,2,3,6,7,8]),
+        ("A!", [6,7,8,9]),
+        ("B!", [1,2,3,9]),
+        ("AB>", [4,5,6,7,8,9]),
+        ("AB=", [4,5,9]),
+        ("AB&!", [1,2,3,6,7,8,9]),
+        ("ABC||!", []),
+    ]
+
     for i, s in enumerate(sets):
         var = chr(i + ord("A"))
         print(f"{var} = {s}")
 
     print("---")
-    for formula in formulas:
-        print(f"{formula}: {eval_set(formula, sets)}")
+    for case in cases:
+        result = eval_set(case[0], sets)
+        expected = case[1]
+        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

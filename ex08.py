@@ -34,7 +34,7 @@ def main():
     for i in range(8): 
         result = normalize(powerset(list(range(i))))
         expected = normalize(recursive_powset(i))
-        check(result == expected, f"For {i}, expected \n{expected}, \ngot \n{result}")
+        check(result == expected, f"For {i}, expected \n\t{expected}, \ngot \n\t{result}")
 
 
 if __name__ == "__main__":
