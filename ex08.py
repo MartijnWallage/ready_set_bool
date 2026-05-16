@@ -21,6 +21,10 @@ from utils import check
 
 
 def recursive_powset(n: int) -> list[list[int]]:
+    """
+    Simpler, recursive method for generating powerset.
+    Requires that the elements are ordered (predictable).
+    """
     if n == 0:
         return [[]]
     previous = recursive_powset(n-1)
@@ -32,6 +36,10 @@ def normalize(powset: list[list[int]]) -> list[list[int]]:
 
 
 def main() -> None:
+    """
+    Test binary method for generating powerset
+    against recursive method.
+    """
     for i in range(8):
         result = normalize(powerset(list(range(i))))
         expected = normalize(recursive_powset(i))
