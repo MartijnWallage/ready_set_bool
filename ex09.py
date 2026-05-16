@@ -10,21 +10,27 @@ def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
             i = ord(ch) - ord('A')
             stack.append(set(sets[i]))
         elif ch == '!':
+            # Negation gives the complement relative to the universe.
             op = stack.pop()
             stack.append(universe - op)
         elif ch == '&':
+            # A and B
             right, left = stack.pop(), stack.pop()
             stack.append(left & right)
         elif ch == '|':
+            # A or B
             right, left = stack.pop(), stack.pop()
             stack.append(left | right)
         elif ch == '^':
+            # A xor B
             right, left = stack.pop(), stack.pop()
             stack.append((left | right) - (left & right))
         elif ch == '>':
+            # If A then B
             right, left = stack.pop(), stack.pop()
             stack.append((universe - left) | right)
         elif ch == '=':
+            # A iff B
             right, left = stack.pop(), stack.pop()
             stack.append((left & right) | (universe - (left | right)))
     if len(stack) != 1:
@@ -37,6 +43,10 @@ from utils import check
 
 
 def main() -> None:
+    """
+    We use three sets to test the evaluation of the formulae.
+    C = [9] so that the universe is more than A and B.
+    """
     sets = [
         [1, 2, 3, 4, 5],
         [4, 5, 6, 7, 8],
