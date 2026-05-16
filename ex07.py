@@ -43,16 +43,20 @@ def pure_literal_assign(clauses: list[list[Var]],
 
 
 def simplify(clauses: list[list[Var]],
-             assignment: dict[str, bool]) -> None:
-    for clause in clauses[:]:
-        for var in clause[:]:
-            if var.name not in assignment:
-                continue
-            if assignment[var.name] == var.sign:
-                clauses.remove(clause)
-                break
-            else:
-                clause.remove(var)
+             assignment: dict[str, bool]) -> list[list[Var]]:
+    """
+    Simplify proposition by removing clauses that are true,
+    and literals that are false, under current assignment.
+    """
+    result = []
+    for clause in clauses:
+        # Do not add true clauses
+        if any(assignment.get(var.name) == var.sign for var in clause):
+            continue
+        # Add clauses without false literals (= literals left in assignment)
+        result.append(
+            [var for var in clause if var.name not in assignment])
+    return result
 
 
 def pick_next_literal(clauses: list[list[Var]],
@@ -77,7 +81,7 @@ def dpll(clauses: list[list[Var]], assignment: dict[str, bool]) -> bool:
         return False
     # pure-literal-assign:
     assignment = pure_literal_assign(clauses, assignment)
-    simplify(clauses, assignment)
+    clauses = simplify(clauses, assignment)
 
     # Test validity
     if clauses == []:
