@@ -19,7 +19,7 @@ def reverse_map(n: float) -> tuple[int, int]:
 from utils import check
 
 
-def main():
+def main() -> None:
     cases = [
         (0, 0),
         (0, 1),

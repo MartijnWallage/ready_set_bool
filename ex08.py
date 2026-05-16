@@ -31,7 +31,7 @@ def normalize(powset: list[list[int]]) -> list[list[int]]:
     return sorted([sorted(subset) for subset in powset])
 
 
-def main():
+def main() -> None:
     for i in range(8):
         result = normalize(powerset(list(range(i))))
         expected = normalize(recursive_powset(i))

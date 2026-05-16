@@ -54,7 +54,7 @@ def make_assignments(formula: str) -> list[dict[str, bool]]:
     return assignments
 
 
-def print_truth_table(formula: str):
+def print_truth_table(formula: str) -> None:
     """
     Print truth table for formula in reversed polish notation.
     """
@@ -71,7 +71,7 @@ def print_truth_table(formula: str):
         print(f"| {int(eval_formula(formula, assignment))} |")
 
 
-def main():
+def main() -> None:
     """
     Test print truth table.
     """

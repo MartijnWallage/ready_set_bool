@@ -14,7 +14,7 @@ import operator
 from utils import check
 
 
-def main():
+def main() -> None:
     pairs = [
         (0, 0),
         (0, 1),

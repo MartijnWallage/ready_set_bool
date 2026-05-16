@@ -36,8 +36,7 @@ def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
 from utils import check
 
 
-def main():
-
+def main() -> None:
     sets = [
         [1, 2, 3, 4, 5],
         [4, 5, 6, 7, 8],

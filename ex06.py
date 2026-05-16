@@ -62,7 +62,7 @@ def conjunctive_normal_form(formula: str) -> str:
 from utils import check
 
 
-def main():
+def main() -> None:
     cases = [
         ("AB&!", "A!B!|"),
         ("AB|!", "A!B!&"),

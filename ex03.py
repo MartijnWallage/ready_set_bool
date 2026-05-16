@@ -40,7 +40,7 @@ def eval_formula(formula: str) -> bool:
 from utils import check
 
 
-def main():
+def main() -> None:
     cases = [
         ("10&", False),
         ("10|", True),

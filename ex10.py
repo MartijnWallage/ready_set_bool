@@ -19,7 +19,7 @@ def morton_map(x: int, y: int) -> float:
     return float(result) / ((1 << 32) - 1)
 
 
-def main():
+def main() -> None:
     cases = [
         (0, 0),
         (0, 1),

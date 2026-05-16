@@ -8,10 +8,10 @@ class Var:
     name: str
     sign: bool
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash(self.name)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.name}" + ("!" if not self.sign else "")
 
 
@@ -26,7 +26,8 @@ def unit_propagate(clauses: list[list[Var]],
     return True
 
 
-def pure_literal_assign(clauses: list[list[Var]], assignment: dict[str, bool]):
+def pure_literal_assign(clauses: list[list[Var]],
+                        assignment: dict[str, bool]) -> dict[str, bool]:
     trial_assign: dict[str, bool] = {}
     ban_list: set[str] = set(assignment)
     for clause in clauses:
@@ -38,10 +39,11 @@ def pure_literal_assign(clauses: list[list[Var]], assignment: dict[str, bool]):
                 ban_list.add(var.name)
             else:
                 trial_assign[var.name] = var.sign
-    assignment |= trial_assign
+    return assignment | trial_assign
 
 
-def simplify(clauses: list[list[Var]], assignment: dict[str, bool]):
+def simplify(clauses: list[list[Var]],
+             assignment: dict[str, bool]) -> None:
     for clause in clauses[:]:
         for var in clause[:]:
             if var.name not in assignment:
@@ -74,7 +76,7 @@ def dpll(clauses: list[list[Var]], assignment: dict[str, bool]) -> bool:
     if not unit_propagate(clauses, assignment):
         return False
     # pure-literal-assign:
-    pure_literal_assign(clauses, assignment)
+    assignment = pure_literal_assign(clauses, assignment)
     simplify(clauses, assignment)
 
     # Test validity
@@ -142,7 +144,7 @@ def sat_brute_force(formula: str) -> bool:
 from utils import check
 
 
-def main():
+def main() -> None:
     cases = [
         "A",
         "AB&",

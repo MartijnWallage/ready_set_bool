@@ -8,7 +8,7 @@ class Var(Node):
     def __init__(self, name: str):
         self.name = name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Var({self.name!r})"
 
 
@@ -18,7 +18,7 @@ class Not(Node):
     def __init__(self, operand: Node):
         self.operand = operand
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Not({self.operand!r})"
 
 
@@ -29,7 +29,7 @@ class And(Node):
         self.left = left
         self.right = right
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"And({self.left!r}, {self.right!r})"
 
 
@@ -40,7 +40,7 @@ class Or(Node):
         self.left = left
         self.right = right
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Or({self.left!r}, {self.right!r})"
 
 
@@ -121,7 +121,7 @@ def negation_normal_form(formula: str) -> str:
 from utils import check
 
 
-def main():
+def main() -> None:
     cases = [
         ("AB&!", "A!B!|"),
         ("AB|!", "A!B!&"),

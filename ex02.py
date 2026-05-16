@@ -6,7 +6,7 @@ def gray_code(n: int) -> int:
 from utils import check
 
 
-def main():
+def main() -> None:
     last = 0
     result = gray_code(last)
     check(result == 0, f"For gray code of 0, got {result:>8b}")
