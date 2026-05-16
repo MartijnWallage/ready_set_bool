@@ -11,9 +11,6 @@ class Var(Node):
     def __repr__(self):
         return f"Var({self.name!r})"
 
-    def __eq__(self, other):
-        return isinstance(other, Var) and self.name == other.name
-
 
 class Not(Node):
     __match_args__ = ("operand",)
@@ -24,9 +21,6 @@ class Not(Node):
     def __repr__(self):
         return f"Not({self.operand!r})"
 
-    def __eq__(self, other):
-        return isinstance(other, Not) and self.operand == other.operand
-
 
 class And(Node):
     __match_args__ = ("left", "right",)
@@ -36,14 +30,10 @@ class And(Node):
         self.right = right
 
     def __repr__(self):
-        return f"And(left={self.left!r}, right={self.right!r})"
-
-    def __eq__(self, other):
-        return isinstance(other, And) and {
-            self.left, self.right} == {other.left, other.right}
+        return f"And({self.left!r}, {self.right!r})"
 
 
-class Or:
+class Or(Node):
     __match_args__ = ("left", "right",)
 
     def __init__(self, left: Node, right: Node):
@@ -51,11 +41,7 @@ class Or:
         self.right = right
 
     def __repr__(self):
-        return f"Or(left={self.left!r}, right={self.right!r})"
-
-    def __eq__(self, other):
-        return isinstance(other, Or) and {
-            self.left, self.right} == {other.left, other.right}
+        return f"Or({self.left!r}, {self.right!r})"
 
 
 def to_tree(formula: str) -> Node:

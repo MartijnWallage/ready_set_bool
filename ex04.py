@@ -48,7 +48,8 @@ def make_assignments(formula: str) -> list[dict[str, bool]]:
             # j is the digit of that number.
             # For example, A should get the value of the 0th digit of i
             # B the value of the 1st digit of i
-            assignment[var] = (i >> (len(vars) - 1 - j)) & 1
+            shift = len(vars) - 1 - j
+            assignment[var] = bool(i >> shift & 1)
         assignments.append(assignment)
     return assignments
 

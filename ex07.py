@@ -54,7 +54,7 @@ def simplify(clauses: list[list[Var]], assignment: dict[str, bool]):
 
 
 def pick_next_literal(clauses: list[list[Var]],
-                      assignment: list[str, bool]) -> str:
+                      assignment: dict[str, bool]) -> str:
     for clause in clauses:
         for var in clause:
             if var.name not in assignment:
