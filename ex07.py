@@ -17,6 +17,11 @@ class Var:
 
 def unit_propagate(clauses: list[list[Var]],
                    assignment: dict[str, bool]) -> bool:
+    """
+    Sole literals in clauses can be assigned True,
+    unless that conflicts with the existing assignment.
+    Return value: False iff conflict with current assignment.
+    """
     for clause in clauses:
         if len(clause) == 1:
             var = clause[0]
@@ -28,6 +33,11 @@ def unit_propagate(clauses: list[list[Var]],
 
 def pure_literal_assign(clauses: list[list[Var]],
                         assignment: dict[str, bool]) -> dict[str, bool]:
+    """
+    Literals that always occur with the same sign can be assigned
+    a value accordingly. All always-positive literals are assigned True,
+    all always-negative literals are assigned False.
+    """
     trial_assign: dict[str, bool] = {}
     ban_list: set[str] = set(assignment)
     for clause in clauses:
@@ -61,6 +71,9 @@ def simplify(clauses: list[list[Var]],
 
 def pick_next_literal(clauses: list[list[Var]],
                       assignment: dict[str, bool]) -> str:
+    """
+    Pick next unassigned literal to try.
+    """
     for clause in clauses:
         for var in clause:
             if var.name not in assignment:
@@ -102,6 +115,10 @@ def dpll(clauses: list[list[Var]], assignment: dict[str, bool]) -> bool:
 
 
 def split_clauses(formula: str) -> list[list[Var]]:
+    """
+    Parse formula as a list of clauses,
+    each clause is a list of literals.
+    """
     clauses: list[list[Var]] = []
     for ch in formula:
         if ch == "&":
@@ -149,6 +166,9 @@ from utils import check
 
 
 def main() -> None:
+    """
+    Test dpll against brute force sat.
+    """
     cases = [
         "A",
         "AB&",
