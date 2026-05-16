@@ -5,15 +5,17 @@ def gray_code(n: int) -> int:
 # For testing
 from utils import check
 
+
 def main():
     last = 0
     result = gray_code(last)
     check(result == 0, f"For gray code of 0, got {result:>8b}")
-    for i in range(1,100):
+    for i in range(1, 100):
         result = gray_code(i)
         difference = result ^ last
         # Difference from last must have only one positive digit
-        check(difference & (difference - 1) == 0, f"For gray code of {i}, got {result:>8b}")
+        check(difference & (difference - 1) == 0,
+              f"For gray code of {i}, got {result:>8b}")
         last = result
 
 

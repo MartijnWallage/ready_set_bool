@@ -1,8 +1,8 @@
 def morton_map(x: int, y: int) -> float:
-    """A function that maps each pair of coordinates onto 
-    a float in the interval [0,1]. 
+    """A function that maps each pair of coordinates onto
+    a float in the interval [0,1].
     x and y are in the range [0,2^16)
-    Implements the Morton code / Z-order curve, which simply 
+    Implements the Morton code / Z-order curve, which simply
     interleaves the bits in the binary representation of x and y.
     """
     if not (0 <= x < (1 << 16) and 0 <= y < (1 << 16)):
@@ -21,18 +21,18 @@ def morton_map(x: int, y: int) -> float:
 
 def main():
     cases = [
-        (0,0),
-        (0,1),
-        (1,0),
-        (1,1),
-        (0,2),
-        (2,0),
-        (2,1),
-        (1,2),
-        (2,2),
-        (120,300),
-        (2**10-43, 2**13-23),
-        (2**16-1, 2**16-1),
+        (0, 0),
+        (0, 1),
+        (1, 0),
+        (1, 1),
+        (0, 2),
+        (2, 0),
+        (2, 1),
+        (1, 2),
+        (2, 2),
+        (120, 300),
+        (2 ** 10 - 43, 2 ** 13 - 23),
+        (2 ** 16 - 1, 2 ** 16 - 1),
     ]
 
     for case in cases:

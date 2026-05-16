@@ -1,15 +1,18 @@
 from ex05 import Node, Var, Not, And, Or, to_tree, to_nnf
 
-def distribute(l: Node, r: Node) -> Node:
-    match (l, r):
+
+def distribute(left: Node, right: Node) -> Node:
+    match (left, right):
         # (A & B) | C => (A | C) & (B | C)
-        case (And(ll, lr), _):
-            return And(distribute(ll, r), distribute(lr, r))
+        case (And(leftleft, leftright), _):
+            return And(distribute(leftleft, right),
+                       distribute(leftright, right))
         # A | (B & C) => (A | B) & (A | C)
-        case (_, And(rl, rr)):
-            return And(distribute(l, rl), distribute(l, rr))
+        case (_, And(rightleft, rightright)):
+            return And(distribute(left, rightleft),
+                       distribute(left, rightright))
         case _:
-            return Or(l, r)
+            return Or(left, right)
 
 
 def to_cnf(node: Node) -> Node:
@@ -24,7 +27,7 @@ def to_cnf(node: Node) -> Node:
 
 def to_rpn(node: Node) -> str:
     """ Walk through the tree to create a string.
-        Any ampersands on a left branch have to be moved to the end 
+        Any ampersands on a left branch have to be moved to the end
         of the string to preserve cnf according to the subject.
     """
     match node:
@@ -32,7 +35,7 @@ def to_rpn(node: Node) -> str:
             return ch
         case Not(op):
             return to_rpn(op) + "!"
-        case And(left, right): 
+        case And(left, right):
             new_left = to_rpn(left)
             stripped = new_left.rstrip("&")
             return stripped + to_rpn(right) + new_left[len(stripped):] + "&"
@@ -58,6 +61,7 @@ def conjunctive_normal_form(formula: str) -> str:
 # For testing
 from utils import check
 
+
 def main():
     cases = [
         ("AB&!", "A!B!|"),
@@ -76,9 +80,9 @@ def main():
     for case in cases:
         result = conjunctive_normal_form(case[0])
         expected = case[1]
-        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
+        check(result == expected,
+              f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":
     main()
-

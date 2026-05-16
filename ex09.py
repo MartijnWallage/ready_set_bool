@@ -1,6 +1,6 @@
 def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
     """ Each variable in formula corresponds to a list in sets.
-        We use a stack with multiple sets, reduced to 1 set 
+        We use a stack with multiple sets, reduced to 1 set
         in the end.
     """
     universe = {num for s in sets for num in s}
@@ -20,7 +20,7 @@ def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
             stack.append(left | right)
         elif ch == '^':
             right, left = stack.pop(), stack.pop()
-            stack.append((left | right) - (left & right)) 
+            stack.append((left | right) - (left & right))
         elif ch == '>':
             right, left = stack.pop(), stack.pop()
             stack.append((universe - left) | right)
@@ -35,23 +35,24 @@ def eval_set(formula: str, sets: list[list[int]]) -> list[int]:
 
 from utils import check
 
+
 def main():
 
     sets = [
-        [1,2,3,4,5],
-        [4,5,6,7,8],
+        [1, 2, 3, 4, 5],
+        [4, 5, 6, 7, 8],
         [9],
     ]
 
     cases = [
         ("AB&", [4, 5]),
-        ("AB|", [1,2,3,4,5,6,7,8]),
-        ("AB^", [1,2,3,6,7,8]),
-        ("A!", [6,7,8,9]),
-        ("B!", [1,2,3,9]),
-        ("AB>", [4,5,6,7,8,9]),
-        ("AB=", [4,5,9]),
-        ("AB&!", [1,2,3,6,7,8,9]),
+        ("AB|", [1, 2, 3, 4, 5, 6, 7, 8]),
+        ("AB^", [1, 2, 3, 6, 7, 8]),
+        ("A!", [6, 7, 8, 9]),
+        ("B!", [1, 2, 3, 9]),
+        ("AB>", [4, 5, 6, 7, 8, 9]),
+        ("AB=", [4, 5, 9]),
+        ("AB&!", [1, 2, 3, 6, 7, 8, 9]),
         ("ABC||!", []),
     ]
 
@@ -63,7 +64,8 @@ def main():
     for case in cases:
         result = eval_set(case[0], sets)
         expected = case[1]
-        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
+        check(result == expected,
+              f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":

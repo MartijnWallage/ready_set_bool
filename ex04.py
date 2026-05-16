@@ -5,26 +5,28 @@ def eval_formula(formula: str, assignment: dict[str, bool]) -> bool:
     """
     stack: list[bool] = []
     for ch in formula:
-        if ch.isupper(): stack.append(assignment[ch])
-        elif ch == '!': 
+        if ch.isupper():
+            stack.append(assignment[ch])
+        elif ch == '!':
             a = stack.pop()
             stack.append(not a)
         elif ch == '&':
             right, left = stack.pop(), stack.pop()
             stack.append(left and right)
-        elif ch == '|': 
+        elif ch == '|':
             right, left = stack.pop(), stack.pop()
             stack.append(left or right)
-        elif ch == '^': 
+        elif ch == '^':
             right, left = stack.pop(), stack.pop()
             stack.append(left != right)
-        elif ch == '>': 
+        elif ch == '>':
             right, left = stack.pop(), stack.pop()
-            stack.append(not left or right) 
-        elif ch == '=': 
+            stack.append(not left or right)
+        elif ch == '=':
             right, left = stack.pop(), stack.pop()
             stack.append(left == right)
-        else: raise ValueError(f"Unknown symbol: {ch!r}")
+        else:
+            raise ValueError(f"Unknown symbol: {ch!r}")
 
     if len(stack) != 1:
         raise ValueError(f"Invalid formula: {stack}")
@@ -87,4 +89,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

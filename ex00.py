@@ -1,11 +1,11 @@
 def adder(a: int, b: int) -> int:
     """
     Bitwise addition.
-    Time complexity : O(logn) (we walk the digits of the number from right to left)
+    Time complexity : O(logn)
     Space complexity : O(n) (in-place)
     """
     while b > 0:
-        a, b = a^b, (a&b) << 1
+        a, b = a ^ b, (a & b) << 1
     return a
 
 
@@ -13,16 +13,17 @@ def adder(a: int, b: int) -> int:
 import operator
 from utils import check
 
+
 def main():
     pairs = [
-        (0,0),
-        (0,1),
-        (1,0),
-        (1,1),
-        (1,2),
-        (2,1),
-        (101,23),
-        (12,123),
+        (0, 0),
+        (0, 1),
+        (1, 0),
+        (1, 1),
+        (1, 2),
+        (2, 1),
+        (101, 23),
+        (12, 123),
     ]
     for pair in pairs:
         result = adder(*pair)

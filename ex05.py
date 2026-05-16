@@ -12,7 +12,7 @@ class Var(Node):
         return f"Var({self.name!r})"
 
     def __eq__(self, other):
-        return instance(other, Var) and self.name == other.name
+        return isinstance(other, Var) and self.name == other.name
 
 
 class Not(Node):
@@ -39,7 +39,8 @@ class And(Node):
         return f"And(left={self.left!r}, right={self.right!r})"
 
     def __eq__(self, other):
-        return isinstance(other, And) and {self.left, self.right} == {other.left, other.right}
+        return isinstance(other, And) and {
+            self.left, self.right} == {other.left, other.right}
 
 
 class Or:
@@ -53,15 +54,17 @@ class Or:
         return f"Or(left={self.left!r}, right={self.right!r})"
 
     def __eq__(self, other):
-        return isinstance(other, Or) and {self.left, self.right} == {other.left, other.right}
+        return isinstance(other, Or) and {
+            self.left, self.right} == {other.left, other.right}
 
 
 def to_tree(formula: str) -> Node:
     stack: list[Node] = []
 
     for ch in formula:
-        if ch.isupper(): stack.append(Var(ch))
-        elif ch == '!': 
+        if ch.isupper():
+            stack.append(Var(ch))
+        elif ch == '!':
             operand = stack.pop()
             stack.append(Not(operand))
         elif ch == '&':
@@ -87,23 +90,25 @@ def to_tree(formula: str) -> Node:
 
     return stack.pop()
 
+
 def to_nnf(node: Node) -> Node:
     match node:
         case Var(_):
             return node
-        case Not(Var(_)): 
+        case Not(Var(_)):
             return node
-        case Not(Not(op)): 
+        case Not(Not(op)):
             return to_nnf(op)
-        case Not(And(left, right)): 
+        case Not(And(left, right)):
             return Or(to_nnf(Not(left)), to_nnf(Not(right)))
-        case Not(Or(left, right)): 
+        case Not(Or(left, right)):
             return And(to_nnf(Not(left)), to_nnf(Not(right)))
-        case And(left, right): 
+        case And(left, right):
             return And(to_nnf(left), to_nnf(right))
-        case Or(left, right): 
+        case Or(left, right):
             return Or(to_nnf(left), to_nnf(right))
-        case _: raise ValueError(f"Invalid node: {node!r}")
+        case _:
+            raise ValueError(f"Invalid node: {node!r}")
 
 
 def to_rpn(node: Node) -> str:
@@ -129,6 +134,7 @@ def negation_normal_form(formula: str) -> str:
 # For testing
 from utils import check
 
+
 def main():
     cases = [
         ("AB&!", "A!B!|"),
@@ -142,7 +148,8 @@ def main():
     for case in cases:
         result = negation_normal_form(case[0])
         expected = case[1]
-        check(result == expected, f"For {case[0]}, expected {expected}, got {result}")
+        check(result == expected,
+              f"For {case[0]}, expected {expected}, got {result}")
 
 
 if __name__ == "__main__":
